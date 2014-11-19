@@ -1,5 +1,7 @@
 package com.usjr.moodifyerfacebook;
 
+import java.util.Arrays;//  not sure if appropriate to import
+
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -29,6 +31,8 @@ public class MainFragment extends Fragment {
 	    View view = inflater.inflate(R.layout.activity_main, container, false);
 	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    authButton.setFragment(this);
+	    //permissions
+	    authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
 
 	    return view;
 	}
@@ -39,6 +43,14 @@ public class MainFragment extends Fragment {
 	    super.onCreate(savedInstanceState);
 	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
 	    uiHelper.onCreate(savedInstanceState);
+	}
+	
+	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+	    if (state.isOpened()) {
+	        Log.i(TAG, "Logged in...");
+	    } else if (state.isClosed()) {
+	        Log.i(TAG, "Logged out...");
+	    }
 	}
 	@Override
 	public void onResume() {
@@ -79,13 +91,7 @@ public class MainFragment extends Fragment {
 	    uiHelper.onSaveInstanceState(outState);
 	}
 	
-	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-	    if (state.isOpened()) {
-	        Log.i(TAG, "Logged in...");
-	    } else if (state.isClosed()) {
-	        Log.i(TAG, "Logged out...");
-	    }
-	}
+
 	
 	
 
