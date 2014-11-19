@@ -1,5 +1,7 @@
 package com.usjr.moodifyerfacebook;
 
+import com.facebook.AppEventsLogger;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,5 +34,20 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    protected void onResume() {
+      super.onResume();
+
+      // Logs 'install' and 'app activate' App Events.
+      AppEventsLogger.activateApp(this);
+    }
+    @Override
+    protected void onPause() {
+      super.onPause();
+
+      // Logs 'app deactivate' App Event.
+      AppEventsLogger.deactivateApp(this);
     }
 }
