@@ -2,19 +2,33 @@ package com.usjr.moodifyerfacebook;
 
 import com.facebook.AppEventsLogger;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity {
+	private MainFragment mainFragment;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+
+	    if (savedInstanceState == null) {
+	        // Add the fragment on initial activity setup
+	        mainFragment = new MainFragment();
+	        getSupportFragmentManager()
+	        .beginTransaction()
+	        .add(android.R.id.content, mainFragment)
+	        .commit();
+	    } else {
+	        // Or set the fragment from restored state info
+	        mainFragment = (MainFragment) getSupportFragmentManager()
+	        .findFragmentById(android.R.id.content);
+	    }
+	}
 
 
     @Override
