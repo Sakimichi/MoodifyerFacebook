@@ -13,6 +13,7 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import com.facebook.widget.ProfilePictureView;
 
 import android.content.Intent;//intent not sure if appropriate to import
 import android.os.Bundle; //bundle not sure if appropriate to import
@@ -26,6 +27,7 @@ import android.widget.TextView;
 public class MainFragment extends Fragment {
 	private static final String TAG = "MainFragment";
 	private TextView userInfoTextView;
+	private ProfilePictureView profilePictureView;	
 	
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 	    @Override
@@ -42,9 +44,12 @@ public class MainFragment extends Fragment {
 	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    //permissions
 	    authButton.setFragment(this);
-	    authButton.setReadPermissions(Arrays.asList("user_location", "user_birthday", "user_likes"));
+	    authButton.setReadPermissions(Arrays.asList("public_profile","user_location", "user_birthday", "user_likes"));
 	    //shows UserInfo
 	    userInfoTextView = (TextView) view.findViewById(R.id.userInfoTextView);
+	    profilePictureView = (ProfilePictureView) view.findViewById(R.id.profilePicture);
+	    
+	    
 
 	    return view;
 	}
@@ -86,6 +91,7 @@ public class MainFragment extends Fragment {
 					 if (user != null) {
 			                // Display the parsed user info
 			                userInfoTextView.setText(buildUserInfoDisplay(user));
+			                profilePictureView.setProfileId(user.getId().toString());
 			            }
 					
 				}
